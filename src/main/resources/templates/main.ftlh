@@ -10,14 +10,39 @@
     </form>
 </div>
 
-
-<div>
+<div class = "form-group">
     <form method="post" enctype="multipart/form-data">
-        <input type="text" name="text" placeholder="Введите текст">
-        <input type="tag" name="tag" placeholder="Тег">
-        <input type="file" name="file">
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-        <button type="submit" class="btn btn-primary">Добавить</button>
+        <div class="form-group mb-4">
+            <input type="text" class="form-control ${(error??)?string('is-invalid', '')}"
+                   value="<#if message??>${message.text}</#if>"
+                   name="text" placeholder="Введите сообщение" />
+            <#if error??>
+                <div class="invalid-feedback">
+                    <#list error as key, value>
+                        <#if value?contains("message")>${value}</#if>
+                    </#list>
+                </div>
+            </#if>
+        </div>
+        <div class="form-group mb-4">
+            <input type="tag" class="form-control ${(error??)?string('is-invalid', '')}"
+                   value="<#if message??>${message.tag}</#if>"
+                   name="tag" placeholder="Тег">
+            <#if error??>
+                <div class="invalid-feedback">
+                    <#list error as key, value>
+                        <#if value?contains("tag")>${value}</#if>
+                    </#list>
+                </div>
+            </#if>
+        </div>
+        <div class="form-group mb-4">
+            <input type="file" name="file">
+        </div>
+            <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+        <div class="form-group mb-4">
+            <button type="submit" class="btn btn-primary">Добавить</button>
+        </div>
     </form>
 </div>
 
@@ -34,6 +59,7 @@
         </div>
         <img src="/img/${message.filename}">
     </div >
+    <#else>
         <#if message.text??>
         <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
             <span class="card-text">${message.text}</span>
